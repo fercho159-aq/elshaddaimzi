@@ -55,7 +55,7 @@ export default function AdminHome() {
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-12">
-        <Card className="lg:col-span-7">
+        <Card className="adm-atencion lg:col-span-7">
           <h2 className="text-lg font-extrabold">Qué necesita atención</h2>
           {pendientes.length === 0 ? (
             <p className="mt-4 flex items-center gap-2 text-sm text-ink/60">

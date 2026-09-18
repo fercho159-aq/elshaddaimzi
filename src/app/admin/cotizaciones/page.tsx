@@ -65,7 +65,7 @@ export default function QuotesPage() {
               <button
                 type="button"
                 onClick={() => setOpen(q.id)}
-                className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 px-4 py-4 text-left hover:bg-[#FCFBF8] sm:grid-cols-[6rem_minmax(0,1fr)_8rem_7rem_9rem] sm:px-5"
+                className="cot-fila grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 px-4 py-4 text-left hover:bg-[#FCFBF8] sm:grid-cols-[6rem_minmax(0,1fr)_8rem_7rem_9rem] sm:px-5"
               >
                 <span className="font-mono text-xs text-ink/50">{q.id}</span>
                 <span className="min-w-0 sm:order-none">
@@ -88,7 +88,7 @@ export default function QuotesPage() {
       {quote && (
         <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label={`Cotización ${quote.id}`}>
           <button type="button" aria-label="Cerrar" onClick={() => setOpen(null)} className="absolute inset-0 bg-ink/50" />
-          <div className="absolute inset-y-0 right-0 flex w-full max-w-md animate-float-in flex-col bg-white shadow-2xl">
+          <div className="cot-detalle absolute inset-y-0 right-0 flex w-full max-w-md animate-float-in flex-col bg-white shadow-2xl">
             <div className="flex items-start justify-between border-b border-ink/10 p-5">
               <div>
                 <p className="font-mono text-xs text-ink/50">{quote.id}</p>
@@ -138,7 +138,7 @@ export default function QuotesPage() {
                   target="_blank"
                   rel="noopener"
                   onClick={() => quote.status === "nueva" && demo.setQuoteStatus(quote.id, "seguimiento")}
-                  className="flex h-12 items-center justify-center gap-2 rounded-full bg-wa font-extrabold text-ink"
+                  className="cot-responder flex h-12 items-center justify-center gap-2 rounded-full bg-wa font-extrabold text-ink"
                 >
                   <WhatsAppIcon className="size-5" /> Responder por WhatsApp
                 </a>

@@ -225,7 +225,7 @@ export function ProductForm({ initial, justCreated = false }: { initial?: Produc
           <h1 className="display mt-1 text-4xl sm:text-5xl">{isNew ? "Nuevo producto" : draft.name || "Sin nombre"}</h1>
         </div>
         {!isNew && (
-          <div className="flex flex-wrap gap-2">
+          <div className="adm-cabecera-fin flex flex-wrap gap-2">
             <Btn
               onClick={() => {
                 const copy = demo.duplicateProduct(draft.id);
@@ -328,7 +328,7 @@ export function ProductForm({ initial, justCreated = false }: { initial?: Produc
             </div>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <Field label="Piezas por caja" htmlFor="fm-caja" error={errors.piecesPerBox} hint="El cotizador ofrece el botón «+1 caja» con esta cantidad.">
-                <input id="fm-caja" data-campo="piecesPerBox" type="number" min={1} value={draft.piecesPerBox} onChange={(e) => set("piecesPerBox", Math.max(0, Math.floor(Number(e.target.value) || 0)))} className={inputCls} />
+                <input id="fm-caja" data-campo="piecesPerBox" type="number" min={1} value={draft.piecesPerBox || ""} onChange={(e) => set("piecesPerBox", Math.max(0, Math.floor(Number(e.target.value) || 0)))} className={inputCls} />
               </Field>
               <div>
                 <p className="mb-1.5 text-xs font-bold text-ink/70">Atajos</p>
@@ -430,7 +430,7 @@ export function ProductForm({ initial, justCreated = false }: { initial?: Produc
                   )}
                 </button>
                 <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={(e) => onPhoto(e.target.files?.[0])} />
-                {(errors.image || photoError) && <p className="mt-2 text-xs font-bold text-[#B3261E]">{photoError || errors.image}</p>}
+                {(errors.image || photoError) && <p className="fm-error-foto mt-2 text-xs font-bold text-[#B3261E]">{photoError || errors.image}</p>}
                 <div className="mt-3">
                   <Toggle checked={draft.cutout} onChange={(v) => set("cutout", v)} label="Fondo blanco" hint="La foto se muestra completa." />
                 </div>
