@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# El Shaddai MZI · Sitio web
 
-## Getting Started
+Rediseño de [elshaddaimzi.com](https://elshaddaimzi.com): comercializadora de mayoreo por temporada en el Centro de la CDMX.
 
-First, run the development server:
+- **Stack:** Next.js 16 (App Router, Turbopack) · React 19 · Tailwind CSS 4 · Embla Carousel · lucide-react
+- **Despliegue:** GitHub → Vercel (sin variables de entorno requeridas)
+- **Enfoque:** mobile first, mega menú en escritorio, menú vertical en móvil, WhatsApp con urgencia real
+
+## Desarrollo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # compilación de producción
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estructura
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  app/                    Rutas (home, temporadas, temporadas/[slug], distribuidores, nosotros, contacto)
+  components/
+    SiteHeader.tsx        Barra de anuncios, mega menú (escritorio) y panel vertical (móvil)
+    WhatsAppFloat.tsx     Botón flotante con cuenta regresiva de temporada y estado de horario
+    carousels/            HeroStories (portada tipo stories), Rail (carril genérico), Reels (videos)
+    ProfitCalculator.tsx  Calculadora de ganancia (bloque "Deseo" de AIDA)
+    SeasonCalendar.tsx    Calendario del revendedor (12 meses × 4 temporadas)
+    blocks.tsx            PageHero, SeasonCard, Gallery, testimonios, tarjetas de producto
+  lib/
+    site.ts               Datos del negocio (teléfonos, horario, dirección, redes)  ← editar aquí
+    seasons.ts            Temporadas: textos, fotos, fechas de surtido, calculadora  ← editar aquí
+    catalog.ts            Productos de muestra de los carriles
+    images.ts             Importación de fotos (optimización automática con next/image)
+  assets/images/          Fotos y logotipo (tomados del respaldo del sitio anterior)
+public/videos/            Clips verticales (9 s, sin audio) y sus pósters
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Estrategia de contenido
 
-## Learn More
+- **Home · PASTOR** (tono formal, de "usted"): Problema → Amplificación → Solución/Historia → Transformación y
+  testimonios → Oferta → Respuesta.
+- **Páginas internas · AIDA:** Atención (portada con cuenta regresiva) → Interés (por qué vender, categorías) →
+  Deseo (calculadora, galería, videos, testimonios) → Acción (WhatsApp con mensaje prellenado).
 
-To learn more about Next.js, take a look at the following resources:
+## Temporada destacada y urgencia
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+La temporada destacada es la que tiene la **fecha recomendada de surtido** más próxima (`stockBy` en
+`src/lib/seasons.ts`). Las páginas que dependen de la fecha se regeneran cada hora (ISR). La urgencia usa solo
+datos verdaderos: días a esa fecha y horario real de atención (`site.hours`). No hay contadores falsos.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## SEO
 
-## Deploy on Vercel
+Metadatos por página, Open Graph, `sitemap.xml`, `robots.txt`, JSON-LD `WholesaleStore` y redirecciones 301 desde
+las URLs del WordPress anterior (`/octubre-diciembre`, `/junio-septiembre`, etc.) en `next.config.ts`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Consulte [PENDIENTES.md](PENDIENTES.md) para los datos que faltan confirmar con el cliente.

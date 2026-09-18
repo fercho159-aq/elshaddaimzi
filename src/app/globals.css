@@ -1,26 +1,171 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Sistema visual El Shaddai MZI
+ * Base: negro tinta + dorado del logo (#D6920F) + crema del logo (#F8F0E8).
+ */
+@theme {
+  --color-ink: #0b0a08;
+  --color-ink-2: #14120e;
+  --color-ink-3: #1e1a14;
+  --color-gold: #d6920f;
+  --color-gold-light: #f0b43c;
+  --color-gold-deep: #9c6a08;
+  --color-cream: #f8f0e8;
+  --color-sand: #efe3d2;
+  --color-smoke: #a39a8c;
+  --color-wa: #25d366;
+  --color-wa-deep: #128c4a;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-display: var(--font-big-shoulders), "Arial Narrow", sans-serif;
+  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
+  --animate-kenburns: kenburns 9s ease-out forwards;
+  --animate-progress: progress var(--story-duration, 6s) linear forwards;
+  --animate-ping-slow: ping-slow 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-float-in: float-in 0.6s var(--ease-out-expo) both;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes kenburns {
+    from { transform: scale(1.14) translate3d(1.5%, 1%, 0); }
+    to { transform: scale(1.02) translate3d(0, 0, 0); }
+  }
+  @keyframes progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes ping-slow {
+    0% { transform: scale(1); opacity: 0.55; }
+    80%, 100% { transform: scale(1.9); opacity: 0; }
+  }
+  @keyframes float-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background: var(--color-ink);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold-light);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Titular tipo rótulo de mercado */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+  }
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+  .voice {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .gold-text {
+    background: linear-gradient(100deg, #9c6a08 0%, #d6920f 30%, #f6c55a 50%, #d6920f 70%, #9c6a08 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold) 20%, var(--color-gold) 80%, transparent);
+  }
+  /* Etiqueta de precio escrita a mano (referencia a las etiquetas de la bodega) */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.7rem;
+    background: var(--color-gold);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 6px 50%);
+    padding-left: 1rem;
+  }
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Aparición al hacer scroll */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js [data-reveal][data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
 }
