@@ -109,7 +109,7 @@ export function PageHero({
             </div>
           )}
           <p className="eyebrow">{eyebrow}</p>
-          <h1 className={`display mt-4 text-[3.2rem] sm:text-7xl ${product ? "lg:text-[5.2rem]" : "lg:text-[6.5rem]"}`}>{title}</h1>
+          <h1 className={`display mt-4 text-[3.2rem] sm:text-7xl ${product ? "lg:text-[clamp(3.5rem,10svh,5.2rem)]" : "lg:text-[clamp(3.5rem,12svh,6.5rem)]"}`}>{title}</h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-cream/80 sm:text-lg">{lead}</p>
           {countdownTo && (
             <div className="mt-8">

@@ -102,7 +102,7 @@ export function HeroStories({ slides }: { slides: HeroSlide[] }) {
                       className="absolute -left-24 bottom-0 h-[70%] w-auto opacity-[0.06]"
                       sizes="600px"
                     />
-                    <div className="absolute left-1/2 top-[12%] aspect-square w-[44vw] max-w-[240px] -translate-x-1/2 sm:top-[16%] sm:w-[50vw] sm:max-w-[420px] lg:left-auto lg:right-[8%] lg:top-1/2 lg:w-[40vw] lg:-translate-y-1/2 lg:translate-x-0">
+                    <div className="absolute left-1/2 top-[12%] aspect-square w-[44vw] max-w-[240px] max-lg:[@media(max-height:760px)]:hidden -translate-x-1/2 sm:top-[16%] sm:w-[50vw] sm:max-w-[420px] lg:left-auto lg:right-[8%] lg:top-1/2 lg:w-[40vw] lg:-translate-y-1/2 lg:translate-x-0">
                       <div
                         className={`relative size-full overflow-hidden rounded-full bg-white ring-1 ring-gold/40 transition-transform duration-[1.4s] ease-[var(--ease-out-expo)] ${
                           active ? "scale-100" : "scale-90"
@@ -123,9 +123,9 @@ export function HeroStories({ slides }: { slides: HeroSlide[] }) {
                   </div>
                 )}
 
-                <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-28 pt-40 sm:px-6 sm:pb-32 lg:px-10 lg:pb-24">
+                <div className="relative mx-auto flex h-full max-w-7xl flex-col px-4 pb-28 pt-36 sm:px-6 sm:pb-32 lg:px-10 lg:pb-24">
                   <div
-                    className={`max-w-2xl transition-all duration-1000 ease-[var(--ease-out-expo)] ${
+                    className={`mt-auto max-w-2xl transition-all duration-1000 ease-[var(--ease-out-expo)] ${
                       active ? "translate-y-0 opacity-100 delay-300" : "translate-y-8 opacity-0"
                     }`}
                   >
@@ -134,15 +134,15 @@ export function HeroStories({ slides }: { slides: HeroSlide[] }) {
                       {s.badge && <span className="tag text-xs">{s.badge}</span>}
                     </div>
                     {i === 0 ? (
-                      <h1 className="display text-[3.4rem] sm:text-7xl lg:text-8xl">
+                      <h1 className="display text-[clamp(2.6rem,min(13.5vw,9.5svh),6rem)]">
                         <Title title={s.title} highlight={s.highlight} />
                       </h1>
                     ) : (
-                      <h2 className="display text-[3.4rem] sm:text-7xl lg:text-8xl">
+                      <h2 className="display text-[clamp(2.6rem,min(13.5vw,9.5svh),6rem)]">
                         <Title title={s.title} highlight={s.highlight} />
                       </h2>
                     )}
-                    <p className="mt-5 max-w-xl text-base leading-relaxed text-cream/80 sm:text-lg">{s.text}</p>
+                    <p className="mt-5 max-w-xl text-base leading-relaxed text-cream/80 [@media(min-height:760px)]:sm:text-lg">{s.text}</p>
                     <div className="mt-7 flex gap-2 sm:mt-8 sm:gap-3">
                       <a
                         href={whatsappUrl(s.waMessage)}

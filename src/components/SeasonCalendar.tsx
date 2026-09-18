@@ -20,8 +20,8 @@ export function SeasonCalendar({
   return (
     <div className="w-full" role="table" aria-label="Calendario de temporadas de venta">
       <div role="row" className={`grid ${cols} gap-[3px] pb-2`}>
-        <span role="columnheader" className="sr-only">
-          Temporada
+        <span role="columnheader">
+          <span className="sr-only">Temporada</span>
         </span>
         {monthNames.map((m, i) => (
           <span
