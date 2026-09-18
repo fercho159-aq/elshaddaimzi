@@ -10,7 +10,6 @@ import { YouTubeLite } from "@/components/YouTubeLite";
 import { Gallery, PageHero, SeasonCard, TestimonialCard, sampleTestimonials, stockLabel } from "@/components/blocks";
 import { Button, Container, SectionHeading, WhatsAppButton } from "@/components/ui";
 import { getSeason, nextStockDate, seasons } from "@/lib/seasons";
-import { site } from "@/lib/site";
 
 export const dynamicParams = false;
 export const revalidate = 3600;
@@ -57,8 +56,8 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
         countdownLabel={`${stockLabel(season)} · tiempo restante`}
       >
         <WhatsAppButton message={season.whatsappMessage} size="lg" label="Solicitar cotización" />
-        <Button href={site.catalogUrl} variant="outline" size="lg">
-          Ver catálogo
+        <Button href={`/cotizador?temporada=${season.slug}`} variant="outline" size="lg">
+          Calcular mi pedido
         </Button>
       </PageHero>
 
@@ -139,6 +138,12 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
               message={season.whatsappMessage}
             />
           </div>
+          <p className="mt-6 text-center text-sm text-cream/70" data-reveal>
+            ¿Ya sabe qué quiere comprar?{" "}
+            <a href={`/cotizador?temporada=${season.slug}`} className="font-bold text-gold hover:text-gold-light">
+              Calcule su pedido con precios por volumen →
+            </a>
+          </p>
 
           <div className="mt-24">
             <SectionHeading eyebrow="Galería" title="Así luce la mercancía" intro="Fotografías de nuestra bodega y producto de temporada." />

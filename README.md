@@ -19,7 +19,8 @@ npm run lint
 
 ```
 src/
-  app/                    Rutas (home, temporadas, temporadas/[slug], distribuidores, nosotros, contacto)
+  app/(sitio)/            Sitio público (home, temporadas, cotizador, distribuidores, nosotros, contacto)
+  app/admin/              Panel de administración (demo)
   components/
     SiteHeader.tsx        Barra de anuncios, mega menú (escritorio) y panel vertical (móvil)
     WhatsAppFloat.tsx     Botón flotante con cuenta regresiva de temporada y estado de horario
@@ -48,6 +49,18 @@ public/videos/            Clips verticales (9 s, sin audio) y sus pósters
 La temporada destacada es la que tiene la **fecha recomendada de surtido** más próxima (`stockBy` en
 `src/lib/seasons.ts`). Las páginas que dependen de la fecha se regeneran cada hora (ISR). La urgencia usa solo
 datos verdaderos: días a esa fecha y horario real de atención (`site.hours`). No hay contadores falsos.
+
+## Cotizador y panel de administración (demostración)
+
+- **`/cotizador`**: el cliente elige productos y cantidades; el precio por pieza baja por niveles
+  (menudeo, mayoreo y volumen), sugiere cuántas piezas faltan para el siguiente nivel y envía la cotización por
+  WhatsApp.
+- **`/admin`** (contraseña de demostración `shaddai2026`): resumen, productos (alta, edición, duplicar, eliminar,
+  precios por volumen, presentaciones y existencias, foto), cotizaciones recibidas, usuarios y perfiles, y
+  configuración.
+- Es un **demo sin servidor**: los datos viven en el `localStorage` del navegador (`src/lib/demo/store.ts`), por eso
+  lo que se cambia en el panel se ve al instante en el cotizador del mismo navegador. Para producción se sustituye
+  por una base de datos y autenticación reales (p. ej. Neon + Vercel Blob), sin cambiar las pantallas.
 
 ## SEO
 

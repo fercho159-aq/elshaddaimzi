@@ -88,7 +88,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50">
+      <header className="fixed inset-x-0 top-0 z-50 print:hidden">
         {/* Barra de anuncios */}
         <div
           className={`overflow-hidden bg-gold text-ink transition-[max-height] duration-500 ${
@@ -125,7 +125,7 @@ export function SiteHeader() {
 
             {/* Navegación escritorio */}
             <nav aria-label="Principal" className="hidden h-full items-center gap-1 lg:flex">
-              {mainNav.map((item) =>
+              {mainNav.filter((item) => !("mobileOnly" in item)).map((item) =>
                 "mega" in item ? (
                   <div key={item.href} className="flex h-full items-center" onMouseEnter={openMega}>
                     <button

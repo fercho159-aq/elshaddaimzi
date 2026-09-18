@@ -10,7 +10,7 @@ import { formatPhone, phoneHref, whatsappUrl } from "@/lib/whatsapp";
 export function SiteFooter() {
   const year = new Date().getFullYear();
   return (
-    <footer className="grain relative overflow-hidden border-t border-gold/20 bg-ink-2">
+    <footer className="grain relative overflow-hidden border-t border-gold/20 bg-ink-2 print:hidden">
       <Image
         src={brand.logoDoradoLeon}
         alt=""
@@ -62,6 +62,7 @@ export function SiteFooter() {
           <nav aria-label="Empresa" className="lg:col-span-2">
             <p className="eyebrow">Empresa</p>
             <ul className="mt-5 space-y-3 text-cream/80">
+              <li><Link href="/cotizador" className="font-semibold hover:text-gold">Cotizador de mayoreo</Link></li>
               <li><Link href="/distribuidores" className="font-semibold hover:text-gold">Distribuidores</Link></li>
               <li><Link href="/nosotros" className="font-semibold hover:text-gold">Nosotros</Link></li>
               <li><Link href="/contacto" className="font-semibold hover:text-gold">Contacto</Link></li>

@@ -67,6 +67,9 @@ export function WhatsAppFloat() {
     } catch {}
   };
 
+  // El cotizador tiene su propia barra de pedido con WhatsApp.
+  if (pathname.startsWith("/cotizador")) return null;
+
   const slug = pathname.match(/^\/temporadas\/([^/]+)/)?.[1];
   const season = (slug && getSeason(slug)) || (now ? featuredSeason(now) : null);
   const days = season && now ? daysUntil(nextStockDate(season, now), now) : null;

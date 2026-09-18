@@ -34,6 +34,13 @@ punteada "Ejemplo · reemplazar".
       (parecen fotos de medios o de banco de imágenes tomadas del sitio anterior).
 - [ ] Fotos nuevas: producto por temporada, bodega, equipo y luces encendidas (ideal: sesión en la bodega).
 
+## Cotizador y panel
+
+- [ ] Catálogo real: productos, SKU, precios de los tres niveles, piezas por caja y existencias
+      (hoy son datos de demostración en `src/lib/demo/seed.ts`).
+- [ ] Pedido mínimo de mayoreo real (demo: $1,500).
+- [ ] Si el panel pasa a producción: base de datos, almacenamiento de fotos y usuarios con contraseña propia.
+
 ## Publicación
 
 - [ ] Repositorio en GitHub y proyecto en Vercel.

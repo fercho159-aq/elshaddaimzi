@@ -317,8 +317,8 @@ export default function HomePage() {
               </div>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row" data-reveal>
                 <WhatsAppButton message="Buen día, me interesa ser distribuidor. ¿Me comparte condiciones y precios de mayoreo?" label="Quiero ser distribuidor" />
-                <Button href="/distribuidores" variant="outline">
-                  Cómo comprar
+                <Button href="/cotizador" variant="outline">
+                  Calcular mi pedido
                 </Button>
               </div>
             </div>

@@ -1,8 +1,9 @@
 import { getSeason } from "./seasons";
 
 export const mainNav = [
-  { href: "/", label: "Inicio" },
+  { href: "/", label: "Inicio", mobileOnly: true },
   { href: "/temporadas", label: "Temporadas", mega: true },
+  { href: "/cotizador", label: "Cotizador" },
   { href: "/distribuidores", label: "Distribuidores" },
   { href: "/nosotros", label: "Nosotros" },
   { href: "/contacto", label: "Contacto" },

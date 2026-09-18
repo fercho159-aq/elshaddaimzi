@@ -68,8 +68,8 @@ export default function DistributorsPage() {
         image={photos.paraguasBodega1}
       >
         <WhatsAppButton message={MESSAGE} size="lg" label="Quiero ser distribuidor" />
-        <Button href="#como-comprar" variant="outline" size="lg">
-          Cómo comprar
+        <Button href="/cotizador" variant="outline" size="lg">
+          Cotizador de mayoreo
         </Button>
       </PageHero>
 
