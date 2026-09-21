@@ -25,6 +25,8 @@ export type Season = {
   productShots: Photo[];
   clips: Clip[];
   youtubeId?: string;
+  /** Tienda en línea del cliente para esa temporada. PENDIENTE: juguetes y mochilas. */
+  storeUrl?: string;
   /** Pregunta con la que abre el mensaje de WhatsApp. */
   whatsappMessage: string;
   headline: string;
@@ -74,6 +76,7 @@ export const seasons: Season[] = [
       clip("inflables", "Inflables"),
     ],
     whatsappMessage: "Buen día, me interesa cotizar luces y adornos navideños de mayoreo.",
+    storeUrl: "https://elshaddaimzinavidad.sicarx.shop",
     headline: "La Navidad se vende con luz. Surta a tiempo.",
     lead: "Series LED, cortinas, figuras luminosas, esferas, árboles e inflables a precio de mayoreo, para que su punto de venta brille desde octubre.",
     categories: [
@@ -156,6 +159,7 @@ export const seasons: Season[] = [
     clips: [clip("paraguas-telas", "Así se fabrica un paraguas")],
     youtubeId: "XHOmBV4js_E",
     whatsappMessage: "Buen día, me interesa cotizar paraguas de mayoreo.",
+    storeUrl: "https://elshaddaimzi.sicarx.shop",
     headline: "Cuando llueve, el que tiene paraguas vende.",
     lead: "Paraguas jumbo, plegables, de bastón, infantiles y con protección UV al mejor precio de mayoreo, para vender en comercio formal o informal.",
     categories: [
@@ -223,9 +227,54 @@ export function nextStockDate(season: Season, now: Date): Date {
   return candidate >= now ? candidate : new Date(y + 1, season.stockBy.month - 1, season.stockBy.day, 23, 59, 59);
 }
 
-/** Temporada destacada: la que tiene la fecha de surtido más próxima. */
+export const isInSeason = (season: Season, now: Date) => season.activeMonths.includes(now.getMonth() + 1);
+
+/** Último día de venta de la temporada (hoy o posterior). Respeta las que cruzan de año, como juguetes. */
+export function seasonEndDate(season: Season, now: Date): Date {
+  const mes = now.getMonth() + 1;
+  const fin = (m: number, y: number) => new Date(y, m, 0, 23, 59, 59); // día 0 del mes siguiente = último del mes
+  if (isInSeason(season, now)) {
+    // Desde el mes actual, avanza mientras la temporada siga activa.
+    let m = mes;
+    let y = now.getFullYear();
+    while (season.activeMonths.includes(m === 12 ? 12 : m + 1 > 12 ? 1 : m + 1) && m !== season.activeMonths[season.activeMonths.length - 1]) {
+      m = m + 1 > 12 ? 1 : m + 1;
+      if (m === 1) y += 1;
+    }
+    return fin(m, y);
+  }
+  const ultimo = season.activeMonths[season.activeMonths.length - 1];
+  const candidate = fin(ultimo, now.getFullYear());
+  return candidate >= now ? candidate : fin(ultimo, now.getFullYear() + 1);
+}
+
+/**
+ * Cuenta regresiva de la temporada: si ya está en venta, los días que le quedan;
+ * si todavía no empieza, la fecha recomendada para surtirla.
+ */
+export function seasonDeadline(season: Season, now: Date) {
+  return isInSeason(season, now)
+    ? { date: seasonEndDate(season, now), enVenta: true as const, label: `Últimos días de ${season.occasion.toLowerCase()}` }
+    : { date: nextStockDate(season, now), enVenta: false as const, label: `Surta antes del ${season.stockBy.day} de ${monthNamesLong[season.stockBy.month - 1]}` };
+}
+
+/**
+ * Temporada destacada: la que se está vendiendo hoy. Si coinciden dos (mayo: paraguas y mochilas),
+ * gana la que termina primero; si ninguna está activa, la que toca surtir antes.
+ */
 export function featuredSeason(now: Date): Season {
+  const activas = seasons.filter((s) => isInSeason(s, now));
+  if (activas.length) return activas.sort((a, b) => +seasonEndDate(a, now) - +seasonEndDate(b, now))[0];
   return [...seasons].sort((a, b) => +nextStockDate(a, now) - +nextStockDate(b, now))[0];
+}
+
+/** Orden del sitio: primero la que está en venta, luego las que vienen. */
+export function seasonsByRelevance(now: Date): Season[] {
+  const featured = featuredSeason(now);
+  const resto = seasons
+    .filter((s) => s.slug !== featured.slug)
+    .sort((a, b) => Number(isInSeason(b, now)) - Number(isInSeason(a, now)) || +nextStockDate(a, now) - +nextStockDate(b, now));
+  return [featured, ...resto];
 }
 
 export function daysUntil(date: Date, now: Date): number {

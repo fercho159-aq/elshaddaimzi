@@ -15,11 +15,11 @@ import { Reels } from "@/components/carousels/Reels";
 import { CtaBand } from "@/components/CtaBand";
 import { Marquee } from "@/components/Marquee";
 import { SeasonCalendar } from "@/components/SeasonCalendar";
-import { Gallery, ProductCard, SeasonCard, TestimonialCard, sampleTestimonials, stockLabel } from "@/components/blocks";
+import { Gallery, ProductCard, SeasonCard, TestimonialCard, sampleTestimonials } from "@/components/blocks";
 import { ArrowLink, Button, Container, SectionHeading, WhatsAppButton } from "@/components/ui";
 import { catalog } from "@/lib/catalog";
 import { photos } from "@/lib/images";
-import { featuredSeason, monthNamesLong, nextStockDate, seasons } from "@/lib/seasons";
+import { featuredSeason, seasonDeadline, seasons, seasonsByRelevance } from "@/lib/seasons";
 import { site } from "@/lib/site";
 
 // La portada se regenera cada hora para que la temporada destacada y el orden del carrusel sigan el calendario.
@@ -35,10 +35,26 @@ const highlights: Record<string, string> = {
 export default function HomePage() {
   const now = new Date();
   const featured = featuredSeason(now);
-  const ordered = [...seasons].sort((a, b) => +nextStockDate(a, now) - +nextStockDate(b, now));
-  const featuredDeadline = nextStockDate(featured, now);
+  const ordered = seasonsByRelevance(now);
+  const plazo = seasonDeadline(featured, now);
+
+  // El carrusel abre con la temporada que se está vendiendo hoy; la diapositiva de marca va después.
+  const slideTemporada = (s: (typeof seasons)[number]): HeroSlide => ({
+    id: s.slug,
+    kind: s.cutout ? "product" : "photo",
+    image: s.hero,
+    eyebrow: `${s.occasion} · ${s.months}`,
+    title: s.headline,
+    highlight: highlights[s.slug],
+    text: s.lead,
+    href: `/temporadas/${s.slug}`,
+    cta: `Ver ${s.name.toLowerCase()}`,
+    waMessage: s.whatsappMessage,
+    badge: s.slug === featured.slug ? (plazo.enVenta ? "En venta ahora" : plazo.label) : undefined,
+  });
 
   const slides: HeroSlide[] = [
+    slideTemporada(featured),
     {
       id: "marca",
       kind: "photo",
@@ -51,19 +67,7 @@ export default function HomePage() {
       cta: "Conocer temporadas",
       waMessage: "Buen día, me interesa conocer sus precios de mayoreo de temporada.",
     },
-    ...ordered.map<HeroSlide>((s) => ({
-      id: s.slug,
-      kind: s.cutout ? "product" : "photo",
-      image: s.hero,
-      eyebrow: `${s.occasion} · ${s.months}`,
-      title: s.headline,
-      highlight: highlights[s.slug],
-      text: s.lead,
-      href: `/temporadas/${s.slug}`,
-      cta: `Ver ${s.name.toLowerCase()}`,
-      waMessage: s.whatsappMessage,
-      badge: s.slug === featured.slug ? stockLabel(s) : undefined,
-    })),
+    ...ordered.filter((s) => s.slug !== featured.slug).map(slideTemporada),
   ];
 
   const allClips = seasons.flatMap((s) => s.clips);
@@ -210,7 +214,7 @@ export default function HomePage() {
                 momento de mayor venta.
               </p>
               <p className="mt-6 rounded-2xl bg-gold/10 p-4 text-sm text-cream/85">
-                <strong className="text-gold">En temporada ahora:</strong> {featured.name}. {stockLabel(featured)}.
+                <strong className="text-gold">{plazo.enVenta ? "En venta ahora:" : "Siguiente temporada:"}</strong> {featured.name}. {plazo.label}.
               </p>
             </div>
             <div className="lg:col-span-8 lg:pl-6">
@@ -317,8 +321,8 @@ export default function HomePage() {
               </div>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row" data-reveal>
                 <WhatsAppButton message="Buen día, me interesa ser distribuidor. ¿Me comparte condiciones y precios de mayoreo?" label="Quiero ser distribuidor" />
-                <Button href="/cotizador" variant="outline">
-                  Calcular mi pedido
+                <Button href="/tienda" variant="outline" external>
+                  Ver tienda en línea
                 </Button>
               </div>
             </div>
@@ -379,7 +383,7 @@ export default function HomePage() {
 
       {/* R · Respuesta */}
       <CtaBand
-        eyebrow={`Temporada de ${featured.occasion.toLowerCase()}`}
+        eyebrow={plazo.enVenta ? `En venta ahora · ${featured.occasion}` : `Siguiente temporada · ${featured.occasion}`}
         title={
           <>
             Solicite hoy su <span className="gold-text">cotización de mayoreo</span>
@@ -387,15 +391,16 @@ export default function HomePage() {
         }
         text={
           <>
-            Escríbanos por WhatsApp y un asesor le compartirá precios, existencias y opciones de envío. Le recomendamos
-            surtir {featured.name.toLowerCase()} antes del {featured.stockBy.day} de{" "}
-            {monthNamesLong[featured.stockBy.month - 1]}.
+            Escríbanos por WhatsApp y un asesor le compartirá precios, existencias y opciones de envío.{" "}
+            {plazo.enVenta
+              ? `${featured.name} está en venta ahora: aproveche los días que quedan de temporada.`
+              : `Le recomendamos surtir ${featured.name.toLowerCase()} a tiempo.`}
           </>
         }
-        image={photos.lucesTienda}
+        image={featured.cutout ? photos.lucesPrecios : featured.hero}
         message={featured.whatsappMessage}
-        countdownTo={featuredDeadline.toISOString()}
-        countdownLabel="Tiempo restante para la fecha recomendada de surtido"
+        countdownTo={plazo.date.toISOString()}
+        countdownLabel={plazo.enVenta ? `Días que quedan de ${featured.occasion.toLowerCase()}` : "Tiempo para la fecha recomendada de surtido"}
       />
     </>
   );

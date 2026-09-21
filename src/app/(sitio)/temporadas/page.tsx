@@ -4,8 +4,7 @@ import { SeasonCalendar } from "@/components/SeasonCalendar";
 import { PageHero, SeasonCard, stockLabel } from "@/components/blocks";
 import { Button, Container, SectionHeading, WhatsAppButton } from "@/components/ui";
 import { photos } from "@/lib/images";
-import { featuredSeason, nextStockDate, seasons } from "@/lib/seasons";
-import { site } from "@/lib/site";
+import { featuredSeason, isInSeason, seasonDeadline, seasonsByRelevance } from "@/lib/seasons";
 
 export const revalidate = 3600;
 
@@ -19,7 +18,8 @@ export const metadata: Metadata = {
 export default function SeasonsPage() {
   const now = new Date();
   const featured = featuredSeason(now);
-  const ordered = [...seasons].sort((a, b) => +nextStockDate(a, now) - +nextStockDate(b, now));
+  const ordered = seasonsByRelevance(now);
+  const plazo = seasonDeadline(featured, now);
 
   return (
     <>
@@ -32,12 +32,12 @@ export default function SeasonsPage() {
         }
         lead="Cada época del año tiene un producto que la gente necesita comprar. Le ayudamos a tenerlo en su punto de venta antes que nadie."
         image={photos.lucesMuroNeon}
-        countdownTo={nextStockDate(featured, now).toISOString()}
-        countdownLabel={`En temporada: ${featured.name} · ${stockLabel(featured)}`}
+        countdownTo={plazo.date.toISOString()}
+        countdownLabel={`${plazo.enVenta ? "En venta ahora" : "Siguiente temporada"}: ${featured.name} · ${plazo.label}`}
       >
         <WhatsAppButton message={featured.whatsappMessage} size="lg" label="Cotizar temporada actual" />
-        <Button href={site.catalogUrl} variant="outline" size="lg">
-          Ver catálogo
+        <Button href="/tienda" variant="outline" size="lg" external>
+          Tienda en línea
         </Button>
       </PageHero>
 
@@ -61,7 +61,7 @@ export default function SeasonsPage() {
               <div key={s.slug} data-reveal style={{ ["--reveal-delay" as string]: `${(i % 2) * 120}ms` }}>
                 <SeasonCard season={s} index={i} featured={s.slug === featured.slug} />
                 <p className="mt-3 px-1 text-sm text-cream/60">
-                  {stockLabel(s)} · {s.hours}
+                  {isInSeason(s, now) ? "En venta ahora" : stockLabel(s)} · {s.hours}
                 </p>
               </div>
             ))}

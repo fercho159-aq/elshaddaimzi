@@ -62,17 +62,11 @@ export function SiteFooter() {
           <nav aria-label="Empresa" className="lg:col-span-2">
             <p className="eyebrow">Empresa</p>
             <ul className="mt-5 space-y-3 text-cream/80">
-              <li><Link href="/cotizador" className="font-semibold hover:text-gold">Cotizador de mayoreo</Link></li>
               <li><Link href="/distribuidores" className="font-semibold hover:text-gold">Distribuidores</Link></li>
               <li><Link href="/nosotros" className="font-semibold hover:text-gold">Nosotros</Link></li>
               <li><Link href="/contacto" className="font-semibold hover:text-gold">Contacto</Link></li>
               <li>
-                <a href={site.catalogUrl} target="_blank" rel="noopener" className="inline-flex items-center gap-1 font-semibold hover:text-gold">
-                  Catálogo <ArrowUpRight className="size-3.5" />
-                </a>
-              </li>
-              <li>
-                <a href={site.storeUrl} target="_blank" rel="noopener" className="inline-flex items-center gap-1 font-semibold hover:text-gold">
+                <a href="/tienda" target="_blank" rel="noopener" className="inline-flex items-center gap-1 font-semibold hover:text-gold">
                   Tienda en línea <ArrowUpRight className="size-3.5" />
                 </a>
               </li>

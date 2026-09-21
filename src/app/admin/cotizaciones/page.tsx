@@ -46,7 +46,7 @@ export default function QuotesPage() {
     <>
       <PageTitle
         title="Cotizaciones"
-        intro="Las que envían sus clientes desde el cotizador del sitio. Cambie el estado conforme las atiende."
+        intro="Las solicitudes de mayoreo de sus clientes. Cambie el estado conforme las atiende."
       />
 
       <div className="mb-6 grid grid-cols-3 gap-3">

@@ -129,7 +129,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <div className="adm-demo border-b border-gold/30 bg-gold/15">
             <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-2 text-xs text-ink/80 sm:px-6">
               <p>
-                <b>Modo demostración.</b> Los cambios se guardan solo en este navegador y se ven en el cotizador del sitio.
+                <b>Modo demostración.</b> Los cambios se guardan solo en este navegador.
               </p>
               <button
                 type="button"

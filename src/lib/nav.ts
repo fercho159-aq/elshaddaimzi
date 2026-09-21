@@ -3,7 +3,7 @@ import { getSeason } from "./seasons";
 export const mainNav = [
   { href: "/", label: "Inicio", mobileOnly: true },
   { href: "/temporadas", label: "Temporadas", mega: true },
-  { href: "/cotizador", label: "Cotizador" },
+  { href: "/tienda", label: "Tienda en línea", externa: true },
   { href: "/distribuidores", label: "Distribuidores" },
   { href: "/nosotros", label: "Nosotros" },
   { href: "/contacto", label: "Contacto" },

@@ -13,11 +13,16 @@ punteada "Ejemplo · reemplazar".
 - [ ] Teléfono fijo: ¿55 1559 1982?
 - [ ] Horario real (el sitio anterior tenía uno distinto en cada página). Hoy: Lun–Sáb 9:00–18:00.
 - [ ] Redes vigentes: `el_shaddai_919` o `el_shaddai_mx` (Instagram / TikTok) y cuál perfil de Facebook.
-- [ ] Catálogo y tienda vigentes: `anegocios.com.mx` y `elshaddaimzi.sicarx.shop`.
+- [x] Tiendas en línea: `elshaddaimzi.sicarx.shop` (paraguas) y `elshaddaimzinavidad.sicarx.shop` (luces),
+      confirmadas por el cliente el 21/09/2026.
+- [ ] Tiendas en línea de juguetes y mochilas, si existen (hoy esas temporadas no muestran botón de compra).
+- [ ] ¿Se conserva el catálogo de `anegocios.com.mx`? Ya no se enlaza desde el sitio.
 - [ ] Google Analytics `G-BR1HGBMXZD`: confirmar si se conserva (aún no está instalado) y si se agrega el píxel de Meta.
 
 ## Temporadas (`src/lib/seasons.ts`)
 
+- [ ] Meses de venta y fechas de surtido de cada temporada: el cliente las confirma esta semana.
+      De ellas depende qué temporada destaca el home y la cuenta regresiva.
 - [ ] Meses de venta: paraguas "Enero–Septiembre" o "Junio–Septiembre".
 - [ ] Fechas recomendadas para surtir (alimentan la cuenta regresiva y el botón de WhatsApp):
       luces 15 nov · juguetes 26 dic · paraguas 31 may · mochilas 15 jul.
@@ -34,11 +39,13 @@ punteada "Ejemplo · reemplazar".
       (parecen fotos de medios o de banco de imágenes tomadas del sitio anterior).
 - [ ] Fotos nuevas: producto por temporada, bodega, equipo y luces encendidas (ideal: sesión en la bodega).
 
-## Cotizador y panel
+## Panel
 
 - [ ] Catálogo real: productos, SKU, precios de los tres niveles, piezas por caja y existencias
       (hoy son datos de demostración en `src/lib/demo/seed.ts`).
 - [ ] Pedido mínimo de mayoreo real (demo: $1,500).
+- [ ] El manual y el video incluyen una sección del cotizador, que ya salió del sitio: hay que regenerarlos
+      (`../manual`) cuando se cierren estos puntos.
 - [ ] Si el panel pasa a producción: base de datos, almacenamiento de fotos y usuarios con contraseña propia.
 
 ## Publicación

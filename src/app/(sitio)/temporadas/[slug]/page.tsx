@@ -7,9 +7,9 @@ import { CtaBand } from "@/components/CtaBand";
 import { Marquee } from "@/components/Marquee";
 import { ProfitCalculator } from "@/components/ProfitCalculator";
 import { YouTubeLite } from "@/components/YouTubeLite";
-import { Gallery, PageHero, SeasonCard, TestimonialCard, sampleTestimonials, stockLabel } from "@/components/blocks";
+import { Gallery, PageHero, SeasonCard, TestimonialCard, sampleTestimonials } from "@/components/blocks";
 import { Button, Container, SectionHeading, WhatsAppButton } from "@/components/ui";
-import { getSeason, nextStockDate, seasons } from "@/lib/seasons";
+import { getSeason, seasonDeadline, seasons } from "@/lib/seasons";
 
 export const dynamicParams = false;
 export const revalidate = 3600;
@@ -36,7 +36,7 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
   if (!season) notFound();
 
   const now = new Date();
-  const deadline = nextStockDate(season, now);
+  const plazo = seasonDeadline(season, now);
   const others = seasons.filter((s) => s.slug !== season.slug);
   const testimonials = [
     ...sampleTestimonials.filter((t) => season.name.toLowerCase().includes(t.season.toLowerCase().split(" ")[0])),
@@ -52,13 +52,19 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
         lead={season.lead}
         image={season.hero}
         product={season.cutout}
-        countdownTo={deadline.toISOString()}
-        countdownLabel={`${stockLabel(season)} · tiempo restante`}
+        countdownTo={plazo.date.toISOString()}
+        countdownLabel={plazo.enVenta ? `En venta ahora · ${plazo.label}` : `${plazo.label} · tiempo restante`}
       >
         <WhatsAppButton message={season.whatsappMessage} size="lg" label="Solicitar cotización" />
-        <Button href={`/cotizador?temporada=${season.slug}`} variant="outline" size="lg">
-          Calcular mi pedido
-        </Button>
+        {season.storeUrl ? (
+          <Button href={`/tienda?temporada=${season.slug}`} variant="outline" size="lg" external>
+            Comprar en línea
+          </Button>
+        ) : (
+          <Button href="/distribuidores" variant="outline" size="lg">
+            Cómo comprar
+          </Button>
+        )}
       </PageHero>
 
       <div className="border-y border-gold/30 bg-gold py-4 text-ink">
@@ -138,12 +144,14 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
               message={season.whatsappMessage}
             />
           </div>
-          <p className="mt-6 text-center text-sm text-cream/70" data-reveal>
-            ¿Ya sabe qué quiere comprar?{" "}
-            <a href={`/cotizador?temporada=${season.slug}`} className="font-bold text-gold hover:text-gold-light">
-              Calcule su pedido con precios por volumen →
-            </a>
-          </p>
+          {season.storeUrl && (
+            <p className="mt-6 text-center text-sm text-cream/70" data-reveal>
+              ¿Ya sabe qué quiere comprar?{" "}
+              <a href={`/tienda?temporada=${season.slug}`} target="_blank" rel="noopener" className="font-bold text-gold hover:text-gold-light">
+                Compre en nuestra tienda en línea →
+              </a>
+            </p>
+          )}
 
           <div className="mt-24">
             <SectionHeading eyebrow="Galería" title="Así luce la mercancía" intro="Fotografías de nuestra bodega y producto de temporada." />
@@ -191,8 +199,8 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
         text="Un asesor le confirmará existencias, precios de mayoreo y tiempo de envío a su ciudad. Los modelos de mayor demanda se agotan primero."
         image={season.cutout ? seasons[0].hero : season.hero}
         message={season.whatsappMessage}
-        countdownTo={deadline.toISOString()}
-        countdownLabel={stockLabel(season)}
+        countdownTo={plazo.date.toISOString()}
+        countdownLabel={plazo.label}
       />
 
       <section className="py-24">

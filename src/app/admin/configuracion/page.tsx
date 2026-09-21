@@ -17,7 +17,7 @@ function SettingsForm({ initial }: { initial: Settings }) {
       return;
     }
     demo.saveSettings(s);
-    setMsg({ ok: true, text: "Configuración guardada. El cotizador ya usa estos datos." });
+    setMsg({ ok: true, text: "Configuración guardada." });
   };
   const upd = (patch: Partial<Settings>) => {
     setS({ ...s, ...patch });
@@ -38,7 +38,7 @@ function SettingsForm({ initial }: { initial: Settings }) {
           <Field label="Horario de atención" htmlFor="horario">
             <input id="horario" value={s.hours} onChange={(e) => upd({ hours: e.target.value })} className={inputCls} />
           </Field>
-          <Field label="Pedido mínimo de mayoreo (MXN)" htmlFor="minimo" hint="El cotizador avisa al cliente si su pedido no lo alcanza.">
+          <Field label="Pedido mínimo de mayoreo (MXN)" htmlFor="minimo" hint="Monto mínimo que se pide para vender a precio de mayoreo.">
             <input id="minimo" type="number" min={0} value={s.minimumOrder} onChange={(e) => upd({ minimumOrder: Math.max(0, Number(e.target.value) || 0) })} className={inputCls} />
           </Field>
         </div>

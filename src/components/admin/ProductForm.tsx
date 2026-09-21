@@ -192,7 +192,7 @@ export function ProductForm({ initial, justCreated = false }: { initial?: Produc
     const saved = demo.saveProduct(clean);
     setDraft(saved);
     setBaseline(JSON.stringify(saved));
-    setStatus({ kind: "ok", text: "Cambios guardados. Ya se ven en el cotizador." });
+    setStatus({ kind: "ok", text: "Cambios guardados." });
   };
 
   const discard = () => {
@@ -235,12 +235,12 @@ export function ProductForm({ initial, justCreated = false }: { initial?: Produc
               <Copy className="size-4" /> Duplicar
             </Btn>
             <a
-              href={`/cotizador?temporada=${draft.season}`}
+              href={`/temporadas/${draft.season}`}
               target="_blank"
               rel="noopener"
               className="inline-flex h-10 items-center gap-1.5 rounded-full border border-ink/15 bg-white px-4 text-sm font-bold hover:border-ink/40"
             >
-              Ver en el cotizador <ExternalLink className="size-4" />
+              Ver la temporada <ExternalLink className="size-4" />
             </a>
           </div>
         )}
@@ -253,7 +253,7 @@ export function ProductForm({ initial, justCreated = false }: { initial?: Produc
               <Field label="SKU o clave" htmlFor="fm-sku" error={errors.sku}>
                 <input id="fm-sku" data-campo="sku" value={draft.sku} aria-invalid={Boolean(errors.sku)} onChange={(e) => set("sku", e.target.value.toUpperCase())} className={`${inputCls} font-mono`} placeholder="HZ8072B" />
               </Field>
-              <Field label="Nombre" htmlFor="fm-nombre" error={errors.name} hint={draft.name && `Así aparece en el cotizador: «${draft.name}»`}>
+              <Field label="Nombre" htmlFor="fm-nombre" error={errors.name} hint={draft.name && `Así aparece en el catálogo: «${draft.name}»`}>
                 <input id="fm-nombre" data-campo="name" value={draft.name} aria-invalid={Boolean(errors.name)} onChange={(e) => set("name", e.target.value)} className={inputCls} placeholder="Serie LED 300 luces" />
               </Field>
               <Field label="Temporada" htmlFor="fm-temporada">
@@ -327,7 +327,7 @@ export function ProductForm({ initial, justCreated = false }: { initial?: Produc
               {errors.tiers && <p className="text-xs font-bold text-[#B3261E]">{errors.tiers}</p>}
             </div>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <Field label="Piezas por caja" htmlFor="fm-caja" error={errors.piecesPerBox} hint="El cotizador ofrece el botón «+1 caja» con esta cantidad.">
+              <Field label="Piezas por caja" htmlFor="fm-caja" error={errors.piecesPerBox} hint="Cuántas piezas trae una caja completa.">
                 <input id="fm-caja" data-campo="piecesPerBox" type="number" min={1} value={draft.piecesPerBox || ""} onChange={(e) => set("piecesPerBox", Math.max(0, Math.floor(Number(e.target.value) || 0)))} className={inputCls} />
               </Field>
               <div>
@@ -453,7 +453,7 @@ export function ProductForm({ initial, justCreated = false }: { initial?: Produc
             <div className="fm-peligro flex flex-col gap-3 rounded-2xl border border-[#B3261E]/25 bg-[#FAF0EF] p-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="font-bold text-[#B3261E]">Eliminar producto</p>
-                <p className="text-sm text-ink/60">Se borra del panel y del cotizador. Si solo no hay piezas, mejor apague «Publicado».</p>
+                <p className="text-sm text-ink/60">Se borra del catálogo del panel. Si solo no hay piezas, mejor apague «Publicado».</p>
               </div>
               <Btn
                 variant="danger"
@@ -474,13 +474,13 @@ export function ProductForm({ initial, justCreated = false }: { initial?: Produc
           <Card>
             <h2 className="mb-4 font-extrabold">En el sitio</h2>
             <div className="space-y-4">
-              <Toggle id="fm-publicado" checked={draft.published} onChange={(v) => set("published", v)} label="Publicado" hint="Aparece en el cotizador." />
+              <Toggle id="fm-publicado" checked={draft.published} onChange={(v) => set("published", v)} label="Publicado" hint="Aparece en el catálogo." />
               <div className="border-t border-ink/10" />
               <Toggle id="fm-destacado" checked={draft.featured} onChange={(v) => set("featured", v)} label="Destacado" hint="Sale primero en su temporada." />
             </div>
           </Card>
           <Card>
-            <p className="mb-3 text-center text-[0.65rem] font-bold uppercase tracking-widest text-ink/45">Así se verá en el cotizador</p>
+            <p className="mb-3 text-center text-[0.65rem] font-bold uppercase tracking-widest text-ink/45">Así se verá en el catálogo</p>
             <div className="overflow-hidden rounded-2xl bg-ink p-4 text-cream">
               <div className={`relative mx-auto aspect-square w-full max-w-[14rem] overflow-hidden rounded-xl ${draft.cutout ? "bg-white" : "bg-ink-3"}`}>
                 {draft.image ? (

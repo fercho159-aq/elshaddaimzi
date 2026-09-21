@@ -41,8 +41,8 @@ export function CtaBand({
           )}
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <WhatsAppButton message={message} size="lg" label="Solicitar cotización" />
-            <Button href={site.catalogUrl} variant="outline" size="lg">
-              Ver catálogo
+            <Button href="/tienda" variant="outline" size="lg" external>
+              Ver tienda en línea
             </Button>
           </div>
           <p className="mt-6 text-xs text-cream/50">{site.hours.label} · Atención personalizada por WhatsApp</p>

@@ -46,15 +46,25 @@ public/videos/            Clips verticales (9 s, sin audio) y sus pósters
 
 ## Temporada destacada y urgencia
 
-La temporada destacada es la que tiene la **fecha recomendada de surtido** más próxima (`stockBy` en
-`src/lib/seasons.ts`). Las páginas que dependen de la fecha se regeneran cada hora (ISR). La urgencia usa solo
-datos verdaderos: días a esa fecha y horario real de atención (`site.hours`). No hay contadores falsos.
+La temporada destacada es **la que se está vendiendo hoy** (`activeMonths` en `src/lib/seasons.ts`); si
+coinciden dos, gana la que termina antes, y si ninguna está activa, la que toca surtir primero
+(`featuredSeason`). El home abre con ella. La cuenta regresiva muestra los días que quedan de temporada cuando ya
+está en venta, o la fecha recomendada de surtido cuando aún no empieza (`seasonDeadline`). Las páginas que
+dependen de la fecha se regeneran cada hora (ISR). La urgencia usa solo datos verdaderos: no hay contadores
+falsos.
+
+## Tienda en línea
+
+La venta en línea la maneja el cliente por su cuenta, con una tienda por temporada:
+`elshaddaimzi.sicarx.shop` (paraguas) y `elshaddaimzinavidad.sicarx.shop` (luces). El enlace **Tienda en línea**
+del menú apunta a `/tienda`, que redirige a la tienda de la temporada que esté en venta
+(`src/app/(sitio)/tienda/route.ts`); con `?temporada=slug` se pide una en concreto.
 
 ## Cotizador y panel de administración (demostración)
 
-- **`/cotizador`**: el cliente elige productos y cantidades; el precio por pieza baja por niveles
-  (menudeo, mayoreo y volumen), sugiere cuántas piezas faltan para el siguiente nivel y envía la cotización por
-  WhatsApp.
+- **Cotizador**: a petición del cliente quedó fuera del sitio. El código sigue en
+  `src/app/(sitio)/_cotizador/` (carpeta privada: Next no la publica) y en `src/components/quote/`, listo para
+  reactivarlo renombrando la carpeta.
 - **`/admin`** (contraseña de demostración `shaddai2026`): resumen, productos (alta, edición, duplicar, eliminar,
   precios por volumen, presentaciones y existencias, foto), cotizaciones recibidas, usuarios y perfiles, y
   configuración.

@@ -38,9 +38,10 @@ export const site = {
     label: "Lunes a sábado · 9:00 a 18:00 h",
   },
 
-  // PENDIENTE: confirmar cuál es la tienda / catálogo vigente.
+  // Tiendas en línea del cliente (una por temporada). PENDIENTE: las de juguetes y mochilas.
   catalogUrl: "https://anegocios.com.mx/98/COMERCIALIZADORA_EL_SHADDAI",
   storeUrl: "https://elshaddaimzi.sicarx.shop",
+  storeUrlNavidad: "https://elshaddaimzinavidad.sicarx.shop",
 
   // PENDIENTE: existen dos juegos de cuentas (el_shaddai_919 y el_shaddai_mx). Confirmar vigentes.
   social: {

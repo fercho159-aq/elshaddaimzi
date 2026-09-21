@@ -147,6 +147,8 @@ export function SiteHeader() {
                     href={item.href}
                     onClick={closeAll}
                     onMouseEnter={scheduleCloseMega}
+                    target={"externa" in item ? "_blank" : undefined}
+                    rel={"externa" in item ? "noopener" : undefined}
                     aria-current={isActive(item.href) ? "page" : undefined}
                     className={`relative px-4 py-2 text-sm font-bold tracking-wide transition-colors hover:text-gold ${
                       isActive(item.href) ? "text-gold" : "text-cream"
@@ -211,12 +213,12 @@ export function SiteHeader() {
                     Ver todas las temporadas <ArrowUpRight className="size-4" />
                   </Link>
                   <a
-                    href={site.catalogUrl}
+                    href="/tienda"
                     target="_blank"
                     rel="noopener"
                     className="inline-flex items-center gap-1.5 text-sm font-bold text-cream/70 hover:text-cream"
                   >
-                    Catálogo en línea <ArrowUpRight className="size-4" />
+                    Tienda en línea <ArrowUpRight className="size-4" />
                   </a>
                 </div>
               </div>
@@ -365,6 +367,8 @@ export function SiteHeader() {
                     <Link
                       href={item.href}
                       onClick={closeAll}
+                      target={"externa" in item ? "_blank" : undefined}
+                      rel={"externa" in item ? "noopener" : undefined}
                       aria-current={isActive(item.href) ? "page" : undefined}
                       className="flex items-baseline gap-4 py-4"
                     >
